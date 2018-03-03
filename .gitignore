@@ -10,3 +10,4 @@ get_token.bash.txt
 pom.xml.versionsBackup
 bin/
 work/
+keycloak-user-secret-embedded-plugin/src/scripts/client/*.txt
