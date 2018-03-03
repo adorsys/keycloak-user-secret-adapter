@@ -1,0 +1,15 @@
+<modules xmlns="http://smartics.de/ns/jboss-modules-descriptor/1">
+	<module name="org.apache.commons.io">
+		<directives>
+			<skip>true</skip>
+		</directives>
+		<match>
+			<includes>
+				<include>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</include>
+			</includes>
+		</match>
+	</module>
+</modules>

@@ -1,0 +1,12 @@
+.DS_Store
+.idea/
+*.iml
+.docker/
+target/
+.project
+.classpath
+.settings/
+get_token.bash.txt
+pom.xml.versionsBackup
+bin/
+work/

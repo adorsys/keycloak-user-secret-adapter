@@ -1,0 +1,24 @@
+<modules xmlns="http://smartics.de/ns/jboss-modules-descriptor/1">
+	<module name="de.adorsys.cryptoutils.jjwk">
+		<match>
+			<includes>
+				<include>
+					<groupId>de.adorsys.cryptoutils</groupId>
+					<artifactId>jjwk</artifactId>
+				</include>
+			</includes>
+		</match>
+		<apply-to-dependencies>
+			<dependencies>
+				<match>
+					<includes>
+						<include>.+</include>
+					</includes>
+				</match>
+				<apply>
+					<export>true</export>
+				</apply>
+			</dependencies>
+		</apply-to-dependencies>
+	</module>
+</modules>

@@ -1,0 +1,14 @@
+<modules xmlns="http://smartics.de/ns/jboss-modules-descriptor/1">
+	<module name="org.bouncycastle">
+		<directives>
+			<skip>true</skip>
+		</directives>
+		<match>
+			<includes>
+				<include>
+					<groupId>org.bouncycastle</groupId>
+				</include>
+			</includes>
+		</match>
+	</module>
+</modules>
