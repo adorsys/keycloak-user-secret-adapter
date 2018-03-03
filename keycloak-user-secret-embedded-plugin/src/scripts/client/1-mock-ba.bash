@@ -12,4 +12,4 @@ TKN=$2
 
 HEADER_DUMP_FILE="$0.txt"
 
-curl -s -X POST "http://$hostAndPort/bankaccesses" -D ${HEADER_DUMP_FILE} -H "Authorization: Bearer $TKN"
+curl -s -X GET "http://$hostAndPort/bankaccesses" -D ${HEADER_DUMP_FILE} -H "Authorization: Bearer $TKN"
