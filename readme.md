@@ -4,7 +4,9 @@
 
 ## Building and Running
 
+download and install jq (https://stedolan.github.io/jq/)
 ```
+
 > git clone https://github.com/adorsys/keycloak-user-secret-adapter.git
 > cd keycloak-user-secret-adapter
 > mvn clean package
