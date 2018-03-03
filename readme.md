@@ -5,7 +5,14 @@
 ## Building and Running
 
 download and install jq (https://stedolan.github.io/jq/)
+
+Download keycloak at https://downloads.jboss.org/keycloak/3.4.3.Final/keycloak-3.4.3.Final.tar.gz
+
+
 ```
+For Mac users
+
+> export KEYCLOAK_DIST=~/Downloads/keycloak-3.4.3.Final.tar.gz
 
 > git clone https://github.com/adorsys/keycloak-user-secret-adapter.git
 > cd keycloak-user-secret-adapter
