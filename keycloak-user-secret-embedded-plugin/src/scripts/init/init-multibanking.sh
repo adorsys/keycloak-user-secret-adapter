@@ -13,16 +13,16 @@ MBCLIENTID=$(kcadm.sh get clients -r multibanking -q clientId=multibanking-clien
 # Todo check how to add client role
 # kcadm.sh create clients/$MBCLIENTID/roles -r multibanking -s name=ADMIN -s 'description=Admin roles for uploading booking files to the mock database.'
 # kcadm.sh create clients/$MBCLIENTID/roles -r multibanking -s name=rules_admin -s 'description=Role needed to upload rules to the multibanking service'
-kcadm.sh create roles -r multibanking -s name=ADMIN -s 
-kcadm.sh create roles -r multibanking -s name=rules_admin -s 
+kcadm.sh create roles -r multibanking -s name=ADMIN 
+kcadm.sh create roles -r multibanking -s name=rules_admin 
 
 kcadm.sh create users -r multibanking -s username=testuser -s enabled=true
 
 MBUSERID=$(kcadm.sh get users -r multibanking -q username=testuser --fields id | jq -r '.[] | .id')
 kcadm.sh update users/$MBUSERID/reset-password -r multibanking -s type=password -s value=testpassword -s temporary=false -n
 # kcadm.sh add-roles -r multibanking --uusername testuser --cclientid multibanking-client --rolename ADMIN --rolename rules_admin
-kcadm.sh add-roles --username testuser --rolename ADMIN -r multibanking
-kcadm.sh add-roles --username testuser --rolename rules_admin -r multibanking
+kcadm.sh add-roles --uusername testuser --rolename ADMIN -r multibanking
+kcadm.sh add-roles --uusername testuser --rolename rules_admin -r multibanking
 
 kcadm.sh create -r multibanking clients/$MBCLIENTID/protocol-mappers/models -s protocol=openid-connect -s name=User-Secrets -s protocolMapper=user-secret-claim-mapper
 
