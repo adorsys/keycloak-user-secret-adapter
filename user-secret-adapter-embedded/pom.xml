@@ -42,11 +42,30 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
+				<version>3.0.0</version>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>de.adorsys.sts:sts-resource-server</include>
+                                    <include>de.adorsys.envutils:envutils4j</include>
+                                    <include>org.apache.commons:commons-lang3</include>
+                                    <include>net.minidev:json-smart</include>
+                                    <include>com.nimbusds:nimbus-jose-jwt</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

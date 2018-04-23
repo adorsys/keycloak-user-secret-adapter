@@ -8,16 +8,17 @@ import de.adorsys.sts.resourceserver.service.ResourceServerManagementProperties;
 import de.adorsys.sts.resourceserver.service.ResourceServerService;
 
 public class AdapterUtil {
-	public static final UserSecretAdapterEmbedded init(){
-		ResourceServerManagementProperties resourceServerManagementProperties = new EnvPropsResourceServerManagementProperties();
-		ResourceServerRepository resourceServerRepository = new InMemoryResourceServerRepository();
-		resourceServerRepository.addAll(resourceServerManagementProperties.getResourceServers());
 
-		ResourceServerService resourceServerService = new ResourceServerService(resourceServerRepository);
-		KeyRetrieverService keyRetrieverService = new KeyRetrieverService(resourceServerService, resourceServerManagementProperties);
-		EncryptionService encryptionService = new EncryptionService(keyRetrieverService);
-		
-		return new UserSecretAdapterEmbedded(resourceServerService, encryptionService);
+    public static final UserSecretAdapterEmbedded init() {
+        ResourceServerManagementProperties resourceServerManagementProperties = new EnvPropsResourceServerManagementProperties();
+        ResourceServerRepository resourceServerRepository = new InMemoryResourceServerRepository();
+        resourceServerRepository.addAll(resourceServerManagementProperties.getResourceServers());
 
-	}
+        ResourceServerService resourceServerService = new ResourceServerService(resourceServerRepository);
+        KeyRetrieverService keyRetrieverService = new KeyRetrieverService(resourceServerService, resourceServerManagementProperties);
+        EncryptionService encryptionService = new EncryptionService(keyRetrieverService);
+
+        return new UserSecretAdapterEmbedded(resourceServerService, encryptionService);
+
+    }
 }

@@ -24,11 +24,12 @@ import de.adorsys.sts.resourceserver.service.ResourceServerManagementProperties;
  *
  */
 public class EnvPropsResourceServerManagementProperties implements ResourceServerManagementProperties {
-	List<ResourceServer> resourceServers;
-	ResourceRetrieverProperties resourceRetrieverProperties;
 
 	public static final String ENV_STS_RESOURCE_SERVER_PREFIX = "STS_RESOURCE_SERVERS";
 	public static final String PROPS_STS_RESOURCE_SERVER_PREFIX = "sts.resourceServers";
+
+    private List<ResourceServer> resourceServers;
+    private ResourceRetrieverProperties resourceRetrieverProperties;
 
 	@Override
 	public List<ResourceServer> getResourceServers() {

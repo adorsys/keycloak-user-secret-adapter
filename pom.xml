@@ -13,7 +13,6 @@
 		<module>user-secret-auth-provider</module>
 		<module>user-secret-protocol-mapper</module>
 		<module>user-secret-adapter-embedded</module>
-		<module>keycloak-user-secret-embedded-plugin</module>
 	</modules>
 
 	<properties>
@@ -23,7 +22,7 @@
 		<keycloak.version>3.4.3.Final</keycloak.version>
 		<infinispan.version>8.2.8.Final</infinispan.version>
 		<envutils.version>0.2</envutils.version>
-		<sts.version>0.22.0</sts.version>
+		<sts.version>0.23.0-0</sts.version>
 	</properties>
 
 	<dependencyManagement>
@@ -54,31 +53,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.5.5</version>
-					<executions>
-						<execution>
-							<id>pack-module</id>
-							<phase>package</phase>
-							<goals>
-								<goal>single</goal>
-							</goals>
-							<configuration>
-								<appendAssemblyId>true</appendAssemblyId>
-								<descriptors>
-									<descriptor>assembly.xml</descriptor>
-								</descriptors>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 </project>

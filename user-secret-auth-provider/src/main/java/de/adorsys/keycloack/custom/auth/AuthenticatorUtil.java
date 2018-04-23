@@ -21,20 +21,6 @@ public class AuthenticatorUtil {
         return Optional.ofNullable(scope)
                 .map(Object::toString);
     }
-
-    public static List<String> extractAudiences(UserCredentialModel credentialInput) {
-        Object scope = credentialInput.getNote(Constants.CUSTOM_SCOPE_NOTE_KEY);
-
-        List<String> audiences = Optional.ofNullable(scope)
-                .map(Object::toString)
-                .map(s -> s.split(" "))
-                .map(Arrays::asList)
-                .orElse(new ArrayList<>());
-
-        return audiences.stream()
-                .filter(a -> !"openid".equals(a))
-                .collect(Collectors.toList());
-    }
     
     public static void addMainSecretToUserSession(UserSecretAdapter userSecretStorage, AuthenticationFlowContext context, UserModel user, UserCredentialModel credentialModel ){
 		String userSecret = userSecretStorage.retrieveMainSecret(context.getRealm(), user, credentialModel);

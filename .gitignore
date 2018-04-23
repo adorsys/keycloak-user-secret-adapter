@@ -10,3 +10,4 @@ get_token.bash.txt
 pom.xml.versionsBackup
 bin/
 work/
+dependency-reduced-pom.xml

@@ -1,23 +1,18 @@
 package de.adorsys.keycloack.secret.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import de.adorsys.keycloack.secret.adapter.common.SecretAndAudiencesModel;
+import de.adorsys.keycloack.secret.adapter.common.UserSecretAdapter;
 import org.adorsys.envutils.EnvProperties;
 import org.keycloak.Config.Scope;
-import org.keycloak.models.AuthenticatedClientSessionModel;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.KeycloakSessionFactory;
-import org.keycloak.models.ProtocolMapperModel;
-import org.keycloak.models.UserSessionModel;
+import org.keycloak.models.*;
 import org.keycloak.protocol.oidc.mappers.AbstractOIDCProtocolMapper;
 import org.keycloak.protocol.oidc.mappers.OIDCAccessTokenMapper;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.representations.AccessToken;
 
-import de.adorsys.keycloack.secret.adapter.common.SecretAndAudModel;
-import de.adorsys.keycloack.secret.adapter.common.UserSecretAdapter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class STSClaimMapper extends AbstractOIDCProtocolMapper implements OIDCAccessTokenMapper {
     private static final String PROVIDER_ID = "user-secret-claim-mapper";
@@ -68,7 +63,7 @@ public class STSClaimMapper extends AbstractOIDCProtocolMapper implements OIDCAc
     public AccessToken transformAccessToken(AccessToken token, ProtocolMapperModel mappingModel, KeycloakSession session, UserSessionModel userSession, AuthenticatedClientSessionModel clientSession) {
         AccessToken accessToken = super.transformAccessToken(token, mappingModel, session, userSession, clientSession);
 
-        SecretAndAudModel secretAndAudModel = AuthenticatorUtil.readSecretAndAud(userSecretAdapter, userSession);
+        SecretAndAudiencesModel secretAndAudModel = AuthenticatorUtil.readSecretAndAud(userSecretAdapter, userSession);
 		Map<String, String> retrieveResourceSecrets = userSecretAdapter.retrieveResourceSecrets(secretAndAudModel, userSession.getRealm(), userSession.getUser());
         if (retrieveResourceSecrets != null && !retrieveResourceSecrets.isEmpty()) {
             accessToken.getOtherClaims().put(claimName, retrieveResourceSecrets);
