@@ -28,3 +28,8 @@ For Mac users
 
 - Keycloak runs on ports: 8080 / 8787 (debug)
 
+## LICENSE
+
+APACHE LICENSE 2.0
+See LICENSE.md
+
