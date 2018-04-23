@@ -31,7 +31,7 @@ For Mac users
 ## LICENSE
 
 APACHE LICENSE 2.0
-See LICENSE.md
+See [LICENSE.md](LICENSE.md)
 
 ## Release process
 
@@ -52,8 +52,9 @@ git submodule init
 ```
 scripts/release-scripts/release.sh 0.0.1 0.0.2
 ```
-Where 0.0.1 - a version to release
-0.0.2 - a next version to develop
+Where:  
+-- 0.0.1 - a version to release  
+-- 0.0.2 - a next version to develop
 5. Follow release scripts commands, including push
 
 
