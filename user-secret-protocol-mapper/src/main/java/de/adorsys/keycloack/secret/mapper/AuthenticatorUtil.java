@@ -2,6 +2,7 @@ package de.adorsys.keycloack.secret.mapper;
 
 import de.adorsys.keycloack.secret.adapter.common.SecretAndAudiencesModel;
 import de.adorsys.keycloack.secret.adapter.common.UserSecretAdapter;
+import org.adorsys.envutils.EnvProperties;
 import org.keycloak.models.UserSessionModel;
 
 import java.util.ArrayList;
@@ -11,6 +12,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AuthenticatorUtil {
+
+    private static String defaultAudience = EnvProperties.getEnvOrSysProp("STS_DEFAULT_AUDIENCE", null);
 
     private static List<String> extractAudiences(String scope) {
         List<String> audiences = Optional.ofNullable(scope)
@@ -28,6 +31,10 @@ public class AuthenticatorUtil {
         String userMainSecret = userSession.getNote(UserSecretAdapter.USER_MAIN_SECRET_NOTE_KEY);
         String scope = userSession.getNote(UserSecretAdapter.AUTH_SESSION_SCOPE_NOTE_KEY);
         List<String> audiences = extractAudiences(scope);
+
+        if (audiences.size() == 0 && defaultAudience != null) {
+            audiences.add(defaultAudience);
+        }
         
         return new SecretAndAudiencesModel(userMainSecret, audiences);
     }

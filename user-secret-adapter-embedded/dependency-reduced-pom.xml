@@ -22,6 +22,8 @@
               <artifactSet>
                 <includes>
                   <include>de.adorsys.sts:sts-resource-server</include>
+                  <include>de.adorsys.cryptoutils:jjwk</include>
+                  <include>de.adorsys.cryptoutils:basetypes</include>
                   <include>de.adorsys.envutils:envutils4j</include>
                   <include>org.apache.commons:commons-lang3</include>
                   <include>net.minidev:json-smart</include>

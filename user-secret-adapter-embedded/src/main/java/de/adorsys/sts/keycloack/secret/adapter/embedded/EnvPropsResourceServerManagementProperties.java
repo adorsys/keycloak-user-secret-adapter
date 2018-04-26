@@ -132,7 +132,7 @@ public class EnvPropsResourceServerManagementProperties implements ResourceServe
 		String idpServer = EnvProperties.getEnvOrSysProp(prefix + "IDP_SERVER", true);
 		resourceServer.setIdpServer(BooleanUtils.toBoolean(idpServer));
 
-		String userSecretClaimName = EnvProperties.getEnvOrSysProp(prefix + "USER_SECRET_CLAIM_NAME", true);
+		String userSecretClaimName = EnvProperties.getEnvOrSysProp(prefix + "USER_SECRET_CLAIM_NAME", false);
 		if (StringUtils.isNotBlank(userSecretClaimName))
 			resourceServer.setUserSecretClaimName(userSecretClaimName);
 		return resourceServer;

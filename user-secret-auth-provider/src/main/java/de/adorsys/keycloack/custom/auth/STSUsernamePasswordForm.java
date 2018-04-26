@@ -3,6 +3,7 @@ package de.adorsys.keycloack.custom.auth;
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.authenticators.browser.UsernamePasswordForm;
+import org.keycloak.common.util.SystemEnvProperties;
 import org.keycloak.credential.CredentialInput;
 import org.keycloak.events.Errors;
 import org.keycloak.models.UserCredentialModel;
@@ -20,13 +21,13 @@ import java.util.Optional;
 
 public class STSUsernamePasswordForm extends UsernamePasswordForm {
 
-	private UserSecretAdapter userSecretAdapter;
+    private UserSecretAdapter userSecretAdapter;
 
     public STSUsernamePasswordForm(UserSecretAdapter userSecretAdapter) {
-		this.userSecretAdapter = userSecretAdapter;
-	}
+        this.userSecretAdapter = userSecretAdapter;
+    }
 
-	/**
+    /**
      * Override the validate password so we transfer password validation result into the authentication flow context.
      * <p>
      * TODO: Discuss issue with keycloak development team and send a patch.
@@ -38,12 +39,12 @@ public class STSUsernamePasswordForm extends UsernamePasswordForm {
         // Patched
         PasswordUserCredentialModel credentialModel = UserCredentialModel.password(password);
 
-        Optional<String> scope = AuthenticatorUtil.readScope(context);
-        scope.ifPresent(s -> credentialModel.setNote(Constants.CUSTOM_SCOPE_NOTE_KEY, s));
+        AuthenticatorUtil.readScope(context)
+                .ifPresent(s -> credentialModel.setNote(Constants.CUSTOM_SCOPE_NOTE_KEY, s));
 
         credentials.add(credentialModel);
         if (password != null && !password.isEmpty() && context.getSession().userCredentialManager().isValid(context.getRealm(), user, credentials)) {
-			AuthenticatorUtil.addMainSecretToUserSession(userSecretAdapter, context, user, credentialModel);
+            AuthenticatorUtil.addMainSecretToUserSession(userSecretAdapter, context, user, credentialModel);
             return true;
         } else {
             context.getEvent().user(user);
