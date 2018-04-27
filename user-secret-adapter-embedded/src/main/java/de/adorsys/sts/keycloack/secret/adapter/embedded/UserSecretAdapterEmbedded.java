@@ -41,11 +41,14 @@ public class UserSecretAdapterEmbedded implements UserSecretAdapter {
 
 	ResourceServerService resourceServerService;
 	EncryptionService encryptionService;
+	SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever;
 
-	public UserSecretAdapterEmbedded(ResourceServerService resourceServerService, EncryptionService encryptionService) {
+	public UserSecretAdapterEmbedded(ResourceServerService resourceServerService, 
+			EncryptionService encryptionService, SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever) {
 		super();
 		this.resourceServerService = resourceServerService;
 		this.encryptionService = encryptionService;
+		this.secretEncryptionPasswordRetriever = secretEncryptionPasswordRetriever;
 	}
 
 	/**

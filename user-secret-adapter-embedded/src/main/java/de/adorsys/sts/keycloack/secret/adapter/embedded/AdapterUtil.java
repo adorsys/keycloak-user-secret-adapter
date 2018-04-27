@@ -17,7 +17,9 @@ public class AdapterUtil {
 		KeyRetrieverService keyRetrieverService = new KeyRetrieverService(resourceServerService, resourceServerManagementProperties);
 		EncryptionService encryptionService = new EncryptionService(keyRetrieverService);
 		
-		return new UserSecretAdapterEmbedded(resourceServerService, encryptionService);
+		// TODO: Start with this first. Will add property to switch decision among strategies later.
+		SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever = new IdpConfiguredSecretEncryptionPasswordRetriever();
+		return new UserSecretAdapterEmbedded(resourceServerService, encryptionService, secretEncryptionPasswordRetriever);
 
 	}
 }
