@@ -60,8 +60,10 @@ public class UserSecretAdapterEmbedded implements UserSecretAdapter {
 	@Override
 	public String retrieveMainSecret(RealmModel realmModel, UserModel userModel, UserCredentialModel credentialModel) {
 		List<String> userSecretClaimNameAttrs = userModel.getAttribute(userMainSecretAttrName);
-		byte[] secretEncryptionPasswordPBKDF2 = pbkdf2(credentialModel.getValue().toCharArray(), userModel.getId().getBytes(),
+		char[] secretEncryptionPassword = secretEncryptionPasswordRetriever.readSecretEncryptionPassword();
+		byte[] secretEncryptionPasswordPBKDF2 = pbkdf2(secretEncryptionPassword, userModel.getId().getBytes(),
 				PBKDF2_ITERATIONS, HASH_BYTES);
+		
 		if (userSecretClaimNameAttrs == null || userSecretClaimNameAttrs.isEmpty()) {
 			return generateUserMainSecret(userModel, userMainSecretAttrName, secretEncryptionPasswordPBKDF2);
 		} else {
