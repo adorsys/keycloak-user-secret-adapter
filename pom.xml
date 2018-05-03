@@ -37,7 +37,6 @@
 		<module>user-secret-auth-provider</module>
 		<module>user-secret-protocol-mapper</module>
 		<module>user-secret-adapter-embedded</module>
-		<module>keycloak-user-secret-embedded-plugin</module>
 	</modules>
 
 	<properties>
