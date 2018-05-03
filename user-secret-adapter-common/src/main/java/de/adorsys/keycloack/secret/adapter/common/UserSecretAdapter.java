@@ -22,10 +22,10 @@ import org.keycloak.provider.Provider;
  */
 public interface UserSecretAdapter extends Provider{
 	
-	public static final String USER_MAIN_SECRET_NOTE_KEY="UserSecretStorage-UserMainSecret";
-	public static final String AUTH_SESSION_SCOPE_NOTE_KEY="UserSecretStorage-AuthSessionScope";
+	String USER_MAIN_SECRET_NOTE_KEY="UserSecretStorage-UserMainSecret";
+	String AUTH_SESSION_SCOPE_NOTE_KEY="UserSecretStorage-AuthSessionScope";
 	
-    public String retrieveMainSecret(RealmModel realmModel, UserModel userModel, UserCredentialModel credentialModel);
+    String retrieveMainSecret(RealmModel realmModel, UserModel userModel, UserCredentialModel credentialModel);
 
-    public Map<String, String> retrieveResourceSecrets(SecretAndAudModel secretAndAudModel, RealmModel realmModel, UserModel userModel);
+    Map<String, String> retrieveResourceSecrets(SecretAndAudiencesModel secretAndAudModel, RealmModel realmModel, UserModel userModel);
 }

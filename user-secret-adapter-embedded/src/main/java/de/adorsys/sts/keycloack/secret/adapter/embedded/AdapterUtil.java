@@ -8,18 +8,19 @@ import de.adorsys.sts.resourceserver.service.ResourceServerManagementProperties;
 import de.adorsys.sts.resourceserver.service.ResourceServerService;
 
 public class AdapterUtil {
-	public static final UserSecretAdapterEmbedded init(){
-		ResourceServerManagementProperties resourceServerManagementProperties = new EnvPropsResourceServerManagementProperties();
-		ResourceServerRepository resourceServerRepository = new InMemoryResourceServerRepository();
-		resourceServerRepository.addAll(resourceServerManagementProperties.getResourceServers());
 
-		ResourceServerService resourceServerService = new ResourceServerService(resourceServerRepository);
-		KeyRetrieverService keyRetrieverService = new KeyRetrieverService(resourceServerService, resourceServerManagementProperties);
-		EncryptionService encryptionService = new EncryptionService(keyRetrieverService);
-		
-		// TODO: Start with this first. Will add property to switch decision among strategies later.
-		SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever = new IdpConfiguredSecretEncryptionPasswordRetriever();
-		return new UserSecretAdapterEmbedded(resourceServerService, encryptionService, secretEncryptionPasswordRetriever);
+    public static final UserSecretAdapterEmbedded init(){
+        ResourceServerManagementProperties resourceServerManagementProperties = new EnvPropsResourceServerManagementProperties();
+        ResourceServerRepository resourceServerRepository = new InMemoryResourceServerRepository();
+        resourceServerRepository.addAll(resourceServerManagementProperties.getResourceServers());
 
-	}
+        ResourceServerService resourceServerService = new ResourceServerService(resourceServerRepository);
+        KeyRetrieverService keyRetrieverService = new KeyRetrieverService(resourceServerService, resourceServerManagementProperties);
+        EncryptionService encryptionService = new EncryptionService(keyRetrieverService);
+
+        // TODO: Start with this first. Will add property to switch decision among strategies later.
+        SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever = new IdpConfiguredSecretEncryptionPasswordRetriever();
+        return new UserSecretAdapterEmbedded(resourceServerService, encryptionService, secretEncryptionPasswordRetriever);
+
+    }
 }

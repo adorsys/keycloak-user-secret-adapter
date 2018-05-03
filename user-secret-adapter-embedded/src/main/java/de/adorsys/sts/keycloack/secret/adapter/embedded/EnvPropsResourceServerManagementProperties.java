@@ -24,11 +24,12 @@ import de.adorsys.sts.resourceserver.service.ResourceServerManagementProperties;
  *
  */
 public class EnvPropsResourceServerManagementProperties implements ResourceServerManagementProperties {
-	List<ResourceServer> resourceServers;
-	ResourceRetrieverProperties resourceRetrieverProperties;
 
 	public static final String ENV_STS_RESOURCE_SERVER_PREFIX = "STS_RESOURCE_SERVERS";
 	public static final String PROPS_STS_RESOURCE_SERVER_PREFIX = "sts.resourceServers";
+
+    private List<ResourceServer> resourceServers;
+    private ResourceRetrieverProperties resourceRetrieverProperties;
 
 	@Override
 	public List<ResourceServer> getResourceServers() {
@@ -131,7 +132,7 @@ public class EnvPropsResourceServerManagementProperties implements ResourceServe
 		String idpServer = EnvProperties.getEnvOrSysProp(prefix + "IDP_SERVER", true);
 		resourceServer.setIdpServer(BooleanUtils.toBoolean(idpServer));
 
-		String userSecretClaimName = EnvProperties.getEnvOrSysProp(prefix + "USER_SECRET_CLAIM_NAME", true);
+		String userSecretClaimName = EnvProperties.getEnvOrSysProp(prefix + "USER_SECRET_CLAIM_NAME", false);
 		if (StringUtils.isNotBlank(userSecretClaimName))
 			resourceServer.setUserSecretClaimName(userSecretClaimName);
 		return resourceServer;

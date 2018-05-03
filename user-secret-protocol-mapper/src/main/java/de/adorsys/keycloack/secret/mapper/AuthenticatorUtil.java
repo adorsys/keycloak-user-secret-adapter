@@ -1,17 +1,19 @@
 package de.adorsys.keycloack.secret.mapper;
 
+import de.adorsys.keycloack.secret.adapter.common.SecretAndAudiencesModel;
+import de.adorsys.keycloack.secret.adapter.common.UserSecretAdapter;
+import org.adorsys.envutils.EnvProperties;
+import org.keycloak.models.UserSessionModel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.keycloak.models.UserSessionModel;
-
-import de.adorsys.keycloack.secret.adapter.common.SecretAndAudModel;
-import de.adorsys.keycloack.secret.adapter.common.UserSecretAdapter;
-
 public class AuthenticatorUtil {
+
+    private static String defaultAudience = EnvProperties.getEnvOrSysProp("STS_DEFAULT_AUDIENCE", null);
 
     private static List<String> extractAudiences(String scope) {
         List<String> audiences = Optional.ofNullable(scope)
@@ -25,11 +27,15 @@ public class AuthenticatorUtil {
                 .collect(Collectors.toList());
     }
     
-    public static SecretAndAudModel readSecretAndAud(UserSecretAdapter userSecretStorage, UserSessionModel userSession){
+    public static SecretAndAudiencesModel readSecretAndAud(UserSecretAdapter userSecretStorage, UserSessionModel userSession){
         String userMainSecret = userSession.getNote(UserSecretAdapter.USER_MAIN_SECRET_NOTE_KEY);
         String scope = userSession.getNote(UserSecretAdapter.AUTH_SESSION_SCOPE_NOTE_KEY);
         List<String> audiences = extractAudiences(scope);
+
+        if (audiences.size() == 0 && defaultAudience != null) {
+            audiences.add(defaultAudience);
+        }
         
-        return new SecretAndAudModel(userMainSecret, audiences);
+        return new SecretAndAudiencesModel(userMainSecret, audiences);
     }
 }
