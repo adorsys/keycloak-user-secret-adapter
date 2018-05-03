@@ -6,7 +6,7 @@
 	<groupId>de.adorsys.keycloak</groupId>
 	<artifactId>keycloak-user-secret-adapter</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 	<name>KeycloakUserSecretAdapter</name>
 	<url>https://github.com/adorsys/keycloak-user-secret-adapter</url>
 	<description>Keycloak User Secret Adapter</description>
