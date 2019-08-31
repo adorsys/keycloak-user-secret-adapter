@@ -1,63 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<artifactId>keycloak-user-secret-adapter</artifactId>
-		<groupId>de.adorsys.keycloak</groupId>
-		<version>1.0.4-SNAPSHOT</version>
-	</parent>
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>keycloak-user-secret-adapter</artifactId>
+        <groupId>de.adorsys.keycloak</groupId>
+        <version>1.0.4-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-	<artifactId>user-secret-adapter-embedded</artifactId>
+    <artifactId>user-secret-adapter-embedded</artifactId>
 
-	<dependencies>
-		<!-- Compile time dependencies -->
-		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-server-spi</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-server-spi-private</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-services</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>de.adorsys.sts</groupId>
-			<artifactId>sts-resource-server</artifactId>
-			<version>${sts.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>de.adorsys.keycloak</groupId>
-			<artifactId>user-secret-adapter-common</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!-- Compile time dependencies -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-server-spi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-server-spi-private</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.adorsys.sts</groupId>
+            <artifactId>sts-resource-server</artifactId>
+            <version>${sts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.adorsys.keycloak</groupId>
+            <artifactId>user-secret-adapter-common</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<version>3.0.0</version>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
+    <build>
+        <finalName>user-secret-adapter-embedded</finalName>
+        <plugins>
+            <plugin>
+                <version>3.0.0</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
                         <configuration>
                             <artifactSet>
                                 <includes>
                                     <include>de.adorsys.sts:sts-resource-server</include>
-									<include>de.adorsys.cryptoutils:jjwk</include>
+                                    <include>de.adorsys.cryptoutils:jjwk</include>
                                     <include>de.adorsys.cryptoutils:basetypes</include>
                                     <include>de.adorsys.envutils:envutils4j</include>
                                     <include>org.apache.commons:commons-lang3</include>
@@ -66,9 +67,16 @@
                                 </includes>
                             </artifactSet>
                         </configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

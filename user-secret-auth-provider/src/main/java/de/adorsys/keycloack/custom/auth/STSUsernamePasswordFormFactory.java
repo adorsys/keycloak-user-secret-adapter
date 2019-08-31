@@ -1,5 +1,6 @@
 package de.adorsys.keycloack.custom.auth;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.keycloak.Config;
@@ -30,17 +31,18 @@ public class STSUsernamePasswordFormFactory implements AuthenticatorFactory {
 
 	@Override
 	public void init(Config.Scope config) {
+		//noop
 	}
 
 	@Override
     public void postInit(KeycloakSessionFactory factory) {
 		UserSecretAdapter userSecretAdapter = factory.getProviderFactory(UserSecretAdapter.class).create(null);
-		singleton = new STSUsernamePasswordForm(userSecretAdapter);			
+		singleton = new STSUsernamePasswordForm(userSecretAdapter);
 	}
 
 	@Override
 	public void close() {
-
+		//noop
 	}
 
 	@Override
@@ -75,7 +77,7 @@ public class STSUsernamePasswordFormFactory implements AuthenticatorFactory {
 
 	@Override
 	public List<ProviderConfigProperty> getConfigProperties() {
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

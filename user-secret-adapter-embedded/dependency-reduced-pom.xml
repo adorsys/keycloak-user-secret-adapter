@@ -3,11 +3,12 @@
   <parent>
     <artifactId>keycloak-user-secret-adapter</artifactId>
     <groupId>de.adorsys.keycloak</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>user-secret-adapter-embedded</artifactId>
   <build>
+    <finalName>user-secret-adapter-embedded</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -34,13 +35,20 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
       <groupId>org.keycloak</groupId>
       <artifactId>keycloak-core</artifactId>
-      <version>3.4.3.Final</version>
+      <version>7.0.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -60,19 +68,19 @@
     <dependency>
       <groupId>org.keycloak</groupId>
       <artifactId>keycloak-server-spi</artifactId>
-      <version>3.4.3.Final</version>
+      <version>7.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.keycloak</groupId>
       <artifactId>keycloak-server-spi-private</artifactId>
-      <version>3.4.3.Final</version>
+      <version>7.0.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.keycloak</groupId>
       <artifactId>keycloak-services</artifactId>
-      <version>3.4.3.Final</version>
+      <version>7.0.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -84,7 +92,7 @@
           <groupId>org.glassfish</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+          <artifactId>jboss-servlet-api_4.0_spec</artifactId>
           <groupId>org.jboss.spec.javax.servlet</groupId>
         </exclusion>
         <exclusion>
@@ -96,11 +104,7 @@
           <groupId>org.jboss.logging</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>resteasy-jaxrs</artifactId>
-          <groupId>org.jboss.resteasy</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+          <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
           <groupId>org.jboss.spec.javax.ws.rs</groupId>
         </exclusion>
         <exclusion>
@@ -112,12 +116,24 @@
           <groupId>org.jboss.resteasy</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>owasp-java-html-sanitizer</artifactId>
+          <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>jackson-annotations</artifactId>
           <groupId>com.fasterxml.jackson.core</groupId>
         </exclusion>
         <exclusion>
           <artifactId>javase</artifactId>
           <groupId>com.google.zxing</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>openshift-restclient-java</artifactId>
+          <groupId>com.openshift</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>keycloak-common</artifactId>
+          <groupId>org.keycloak</groupId>
         </exclusion>
         <exclusion>
           <artifactId>jackson-core</artifactId>
@@ -132,7 +148,7 @@
     <dependency>
       <groupId>de.adorsys.keycloak</groupId>
       <artifactId>user-secret-adapter-common</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>1.0.4-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

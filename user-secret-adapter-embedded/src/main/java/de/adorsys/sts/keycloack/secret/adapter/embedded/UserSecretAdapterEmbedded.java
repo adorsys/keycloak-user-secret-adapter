@@ -21,39 +21,43 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UserSecretAdapterEmbedded implements UserSecretAdapter {
 
-    private static String userMainSecretAttrName = UserSecretAdapter.USER_MAIN_SECRET_NOTE_KEY;
-
-    public static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
-    public static final int PBKDF2_ITERATIONS = 512;
-    public static final int HASH_BYTES = 16;
-
-    ResourceServerService resourceServerService;
-    EncryptionService encryptionService;
-    SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever;
-
-    public UserSecretAdapterEmbedded(ResourceServerService resourceServerService,
-                                     EncryptionService encryptionService, SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever) {
-        super();
-        this.resourceServerService = resourceServerService;
-        this.encryptionService = encryptionService;
-        this.secretEncryptionPasswordRetriever = secretEncryptionPasswordRetriever;
-    }
-
+    private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
+    private static final int PBKDF2_ITERATIONS = 512;
+    private static final int HASH_BYTES = 16;
     /**
      * The main secret is stored, encrypted with the user password. Remember
      * that with this administrator based password reset will not work.
      */
     SecureRandom random = new SecureRandom();
+    private ResourceServerService resourceServerService;
+    private EncryptionService encryptionService;
+    private SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever;
+
+    UserSecretAdapterEmbedded(ResourceServerService resourceServerService,
+                              EncryptionService encryptionService,
+                              SecretEncryptionPasswordRetriever secretEncryptionPasswordRetriever) {
+        this.resourceServerService = resourceServerService;
+        this.encryptionService = encryptionService;
+        this.secretEncryptionPasswordRetriever = secretEncryptionPasswordRetriever;
+    }
+
+    private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
+        try {
+            PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
+            SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
+            return skf.generateSecret(spec).getEncoded();
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+            throw new IllegalStateException(e);
+        }
+    }
 
     @Override
     public String retrieveMainSecret(RealmModel realmModel, UserModel userModel, UserCredentialModel credentialModel) {
+        String userMainSecretAttrName = UserSecretAdapter.USER_MAIN_SECRET_NOTE_KEY;
         List<String> userSecretClaimNameAttrs = userModel.getAttribute(userMainSecretAttrName);
         char[] secretEncryptionPassword = secretEncryptionPasswordRetriever.readSecretEncryptionPassword();
         byte[] secretEncryptionPasswordPBKDF2 = pbkdf2(secretEncryptionPassword, userModel.getId().getBytes(),
@@ -73,7 +77,8 @@ public class UserSecretAdapterEmbedded implements UserSecretAdapter {
         return readUserSecret(userModel, secretAndAudModel.getUserSecret(), audiences);
     }
 
-    private String generateUserMainSecret(UserModel userModel, String secretAttrName, byte[] secretEncryptionPasswordPBKDF2) {
+    private String generateUserMainSecret(UserModel userModel, String secretAttrName,
+                                          byte[] secretEncryptionPasswordPBKDF2) {
         String userMainSecretPlain = RandomStringUtils.randomGraph(16);
         Builder headerBuilder = new JWEHeader.Builder(JWEAlgorithm.DIR, EncryptionMethod.A128GCM);
         JWEObject jweObj = new JWEObject(headerBuilder.build(), new Payload(userMainSecretPlain));
@@ -83,7 +88,7 @@ public class UserSecretAdapterEmbedded implements UserSecretAdapter {
             throw new IllegalStateException(e);
         }
         String customSecretAttr = jweObj.serialize();
-        userModel.setAttribute(secretAttrName, Arrays.asList(customSecretAttr));
+        userModel.setAttribute(secretAttrName, Collections.singletonList(customSecretAttr));
         return userMainSecretPlain;
     }
 
@@ -109,7 +114,8 @@ public class UserSecretAdapterEmbedded implements UserSecretAdapter {
                 String customSecretAttrEnc = encrypt(userResourceSecretPlain, secretEncryptionPasswordPBKDF2);
                 userModel.setAttribute(userSecretClaimName, Arrays.asList(customSecretAttrEnc));
             } else {
-                userResourceSecretPlain = decrypt(userSecretClaimNameAttribute.iterator().next(), secretEncryptionPasswordPBKDF2);
+                userResourceSecretPlain = decrypt(userSecretClaimNameAttribute.iterator().next(),
+                        secretEncryptionPasswordPBKDF2);
             }
             String userResourceSecretEncrypted = encryptionService.encryptFor(audience, userResourceSecretPlain);
             resourceSecrets.put(userSecretClaimName, userResourceSecretEncrypted);
@@ -138,18 +144,9 @@ public class UserSecretAdapterEmbedded implements UserSecretAdapter {
         }
     }
 
-    private static byte[] pbkdf2(char[] password, byte[] salt, int iterations, int bytes) {
-        try {
-            PBEKeySpec spec = new PBEKeySpec(password, salt, iterations, bytes * 8);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
-            return skf.generateSecret(spec).getEncoded();
-        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
     @Override
     public void close() {
+        //noop
     }
 
 }

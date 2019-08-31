@@ -2,6 +2,7 @@ package de.adorsys.keycloack.custom.auth;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
+import org.keycloak.authentication.Authenticator;
 import org.keycloak.authentication.authenticators.browser.UsernamePasswordForm;
 import org.keycloak.common.util.SystemEnvProperties;
 import org.keycloak.credential.CredentialInput;
@@ -12,6 +13,7 @@ import org.keycloak.models.credential.PasswordUserCredentialModel;
 import org.keycloak.representations.idm.CredentialRepresentation;
 
 import de.adorsys.keycloack.secret.adapter.common.UserSecretAdapter;
+import org.keycloak.services.messages.Messages;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -19,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class STSUsernamePasswordForm extends UsernamePasswordForm {
+public class STSUsernamePasswordForm extends UsernamePasswordForm implements Authenticator {
 
     private UserSecretAdapter userSecretAdapter;
 
@@ -49,7 +51,7 @@ public class STSUsernamePasswordForm extends UsernamePasswordForm {
         } else {
             context.getEvent().user(user);
             context.getEvent().error(Errors.INVALID_USER_CREDENTIALS);
-            Response challengeResponse = invalidCredentials(context);
+            Response challengeResponse = challenge(context, Messages.INVALID_USER);
             context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challengeResponse);
             context.clearUser();
             return false;

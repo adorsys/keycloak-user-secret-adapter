@@ -26,19 +26,14 @@
 	</dependencies>
 
 	<build>
+		<finalName>user-secret-adapter-common</finalName>
 		<plugins>
 			<plugin>
-				<version>3.0.0</version>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

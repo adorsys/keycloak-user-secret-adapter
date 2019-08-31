@@ -9,7 +9,7 @@ import de.adorsys.sts.resourceserver.service.ResourceServerService;
 
 public class AdapterUtil {
 
-    public static final UserSecretAdapterEmbedded init(){
+    static UserSecretAdapterEmbedded init(){
         ResourceServerManagementProperties resourceServerManagementProperties = new EnvPropsResourceServerManagementProperties();
         ResourceServerRepository resourceServerRepository = new InMemoryResourceServerRepository();
         resourceServerRepository.addAll(resourceServerManagementProperties.getResourceServers());
