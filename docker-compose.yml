@@ -1,0 +1,23 @@
+version: "3.1"
+services:
+  keycloak:
+    build: .
+    image: adorsys/keycloak:latest
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin123
+      DB_VENDOR: postgres
+      DB_ADDR: postgres_keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      USER_SECRET_ENCRYPTION_PASSWORD: 123456789
+      STS_RESOURCE_SERVER_LIST: MULTIBANKING
+      STS_RESOURCE_SERVERS_MULTIBANKING_JWKS_URL: http://host.docker.internal:8081/pop
+      STS_RESOURCE_SERVERS_MULTIBANKING_AUDIENCE: Multibanking
+      STS_RESOURCE_SERVERS_MULTIBANKING_USER_SECRET_CLAIM_NAME: Multibanking
+      STS_DEFAULT_AUDIENCE: Multibanking
+  postgres_keycloak:
+    image: postgres:9.6
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
